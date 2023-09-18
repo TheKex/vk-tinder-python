@@ -67,7 +67,6 @@ if __name__ == '__main__':
     db_pass = getenv('DB_PASS')
     db_name = getenv('DB_NAME')
 
-    print(f"postgresql+psycopg2://{db_user}:{db_pass}@{db_host}/{db_name}")
 
     engine = sq.create_engine(f"postgresql+psycopg2://{db_user}:{db_pass}@{db_host}/{db_name}",
                               echo=True)

@@ -21,7 +21,6 @@ longpoll = VkLongPoll(vk_bot)
 
 # Функция для отправки сообщения с вложениями
 def write_msg(user_id, message, attachment=None, keyboard=None):
-    print(keyboard)
     vk_bot.method("messages.send", {"user_id": user_id, "message": message, "attachment": attachment,
                                     "random_id": randrange(10 ** 7), "keyboard": keyboard})
 
