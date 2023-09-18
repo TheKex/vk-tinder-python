@@ -16,7 +16,7 @@ class User(Base):
     last_name = sq.Column(sq.String(length=40))
     sex = sq.Column(sq.Integer)
     age = sq.Column(sq.Integer)
-    link = sq.String(length=400)
+    link = sq.Column(sq.String(length=400))
 
     def __str__(self):
         return f"User: {self.vk_user_id}: {self.first_name} {self.last_name}"

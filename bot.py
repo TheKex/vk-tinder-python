@@ -1,4 +1,5 @@
 from vk import *
+import db.db_interface as db
 
 
 # Активируем бота
@@ -17,6 +18,10 @@ def start_bot():
                                              "Я помогу найти вам пару в социальной сети ВКонтакте! "
                                              "Для начала работы, введите команду 'Ввести данные для поиска'.\n"
                                              "Если вы хотите завершить работу, то напишите 'пока'.")
+
+                    user_info = get_user_info(event.user_id)
+                    db.add_user(db.session, event.user_id, user_info['first_name'], user_info['last_name'],
+                                user_info['sex'], user_info['bdate'], f"https://vk.com/id{event.user_id}", None)
                 elif request == "пока":
                     write_msg(event.user_id, "До свидания, было приятно с вами работать!")
                 elif request == "ввести данные для поиска":
@@ -39,6 +44,9 @@ def start_bot():
                                                  "Чтобы продолжить поиск введите команду 'Дальше'.")
                     else:
                         write_msg(event.user_id, "К сожалению, не найдено подходящей пары")
+                elif event.object.payload.get('type') == 'my_next_button':
+
+                    write_msg(event.user_id, "Лови аптечку")
                 elif request == "дальше":
                     try:
                         if users_list:

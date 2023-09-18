@@ -1,11 +1,12 @@
 from os import getenv
 from enum import Enum
+from datetime import datetime
 
 from dotenv import load_dotenv
 import sqlalchemy as db
 from sqlalchemy.orm import sessionmaker
 
-from models import create_tables, User, Favorite, Phote, BlackList
+from db.models import create_tables, User, Favorite, Phote, BlackList
 
 
 def add_user(db_session: db.orm.Session,
@@ -13,24 +14,24 @@ def add_user(db_session: db.orm.Session,
              first_name: str,
              last_name: str,
              sex: int,
-             age: int,
+             birthdate: str,
              link: str,
-             photos: list):
+             photos: list = None):
     user = User()
     user.vk_user_id = vk_user_id
     user.first_name = first_name
     user.last_name = last_name
     user.sex = sex
-    user.age = age
+    user.age = datetime.today().year - datetime.strptime(birthdate, '%d.%m.%Y').date().year
     user.link = link
 
     db_session.add(user)
-
-    for photo_data in photos:
-        photo = Phote()
-        photo.user = user
-        photo.photo_data = photo_data
-        db_session.add(photo)
+    if photos is not None:
+        for photo_data in photos:
+            photo = Phote()
+            photo.user = user
+            photo.photo_data = photo_data
+            db_session.add(photo)
 
     db_session.commit()
 

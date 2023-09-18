@@ -1,5 +1,6 @@
 import vk_api
 from vk_api.longpoll import VkLongPoll, VkEventType
+from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 import json
 from random import randrange
 
@@ -17,11 +18,27 @@ vk_user = vk_api.VkApi(token=user_token)
 vk_bot = vk_api.VkApi(token=bot_token)
 longpoll = VkLongPoll(vk_bot)
 
+keyboard_1 = VkKeyboard(one_time=True, inline=True)
+keyboard_1.add_callback_button(label='Далее', color=VkKeyboardColor.PRIMARY,
+                               payload={"type": "my_next_button"})
+
 
 # Функция для отправки сообщения с вложениями
 def write_msg(user_id, message, attachment=None):
+    buttons = [
+
+        {
+            "action": {
+                "type": "text",
+                "payload": "{\"button\": \"2\"}",
+                "label": "Blue"
+            },
+            "one_tine": "true",
+            "color": "primary"
+        },
+    ]
     vk_bot.method("messages.send", {"user_id": user_id, "message": message, "attachment": attachment,
-                                    "random_id": randrange(10 ** 7)})
+                                    "random_id": randrange(10 ** 7)}, )
 
 
 # Функция для получения информации о пользователе
